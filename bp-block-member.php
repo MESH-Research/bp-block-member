@@ -503,7 +503,7 @@ class BP_Block_Member {
 			}
 			?>
 
-			<div class="generic-button block-member" id="block-member-<?php echo $target_id; ?>"><a class="block-button" <?php echo $style; ?> id="<?php echo $target_id; ?>" href="<?php echo $this->_bp_block_link( $target_id, $action ); ?>" title="<?php echo $block_button_title; ?>" onclick="disable(<?php echo $target_id; ?>)"><?php echo $block_button_text; ?></a></div>
+			<div class="generic-button block-member" id="block-member-<?php echo $target_id; ?>"><a class="block-button" <?php echo $style; ?> id="<?php echo $target_id; ?>" href="<?php echo $this->_bp_block_link( $target_id, $action ); ?>" title="<?php echo $block_button_title; ?>"><?php echo $block_button_text; ?></a></div>
 			<?php
 		}
 
