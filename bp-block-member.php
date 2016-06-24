@@ -207,7 +207,7 @@ class BP_Block_Member {
 				//$activities_template->activity->current_comment->date_recorded = '';
 			}
 
-			if( ! $this->visibility ) 
+			if( ! $this->visibility )
 				return;
 			else {
 				if( in_array( $activities_template->activity->current_comment->user_id, $this->your_blocked_ids ) ) {
@@ -218,7 +218,7 @@ class BP_Block_Member {
 					$activities_template->activity->current_comment->display_name = 'blocked member';
 					$activities_template->activity->current_comment->user_fullname = 'blocked member';
 					//$activities_template->activity->current_comment->date_recorded = '';
-				}		
+				}
 			}
 		}
 
