@@ -539,7 +539,15 @@ class BP_Block_Member {
 				break;
 			}
 
-			wp_safe_redirect( esc_url_raw( remove_query_arg( array( 'action', 'id', 'target', 'token' ) ) ) );
+			/**
+			 * since cbox-* themes load some pages over ajax (e.g. tabs on member directory),
+			 * this function may get confused and try to redirect to /wp-admin/admin-ajax.php
+			 * we don't want that.
+			 */
+			$url = esc_url_raw( remove_query_arg( array( 'action', 'id', 'target', 'token' ) ) );
+			$url = str_replace( '/wp-admin/admin-ajax.php', '/members', $url );
+
+			wp_safe_redirect( $url );
 			exit();
 		}
 
