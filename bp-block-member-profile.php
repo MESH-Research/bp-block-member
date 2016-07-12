@@ -61,14 +61,14 @@ function bp_my_blocked_members() {
 
 
 function bp_my_blocked_members_screen() {
-	global $wpdb;
+	global $wpdb, $bp;
 	//global $block_member_instance;
 
 	$user_id = bp_displayed_user_id();
 
-	$blocked_ids = $wpdb->get_col( "SELECT DISTINCT target_id FROM {$wpdb->prefix}bp_block_member WHERE user_id = '$user_id' ");
-	//$blocked_ids = $wpdb->get_col( "SELECT target_id FROM {$wpdb->prefix}bp_block_member WHERE user_id = '$user_id' ");
-	
+	$blocked_ids = $wpdb->get_col( "SELECT DISTINCT target_id FROM {$bp->table_prefix}bp_block_member WHERE user_id = '$user_id' ");
+	//$blocked_ids = $wpdb->get_col( "SELECT target_id FROM {$bp->table_prefix}bp_block_member WHERE user_id = '$user_id' ");
+
 ?>
 
 	<table class="users-blocked">
@@ -95,10 +95,10 @@ function bp_my_blocked_members_screen() {
 }
 
 function bp_profile_block_unblock( $blocker, $blockee ) {
-	global $wpdb;
-	
+	global $wpdb, $bp;
+
 	$wpdb->query( $wpdb->prepare(
-		"DELETE FROM {$wpdb->prefix}bp_block_member WHERE user_id = %d AND target_id = %d",
+		"DELETE FROM {$bp->table_prefix}bp_block_member WHERE user_id = %d AND target_id = %d",
 		$blocker, $blockee
 		)
 	);

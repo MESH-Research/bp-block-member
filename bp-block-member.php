@@ -235,22 +235,22 @@ class BP_Block_Member {
 
 		// get the ids of everyone blocking you
 		private function _get_their_blocked_ids() {
-			global $wpdb;
+			global $wpdb, $bp;
 
 			$target_id = $this->this_id;
 
-			$blocked_ids = $wpdb->get_col( "SELECT user_id FROM {$wpdb->prefix}bp_block_member WHERE target_id = '$target_id' ");
+			$blocked_ids = $wpdb->get_col( "SELECT user_id FROM {$bp->table_prefix}bp_block_member WHERE target_id = '$target_id' ");
 
 			return $blocked_ids;
 		}
 
 		// get the ids of everyone you are blocking
 		private function _get_your_blocked_ids() {
-			global $wpdb;
+			global $wpdb, $bp;
 
 			$user_id = $this->this_id;
 
-			$blocked_ids = $wpdb->get_col( "SELECT target_id FROM {$wpdb->prefix}bp_block_member WHERE user_id = '$user_id' ");
+			$blocked_ids = $wpdb->get_col( "SELECT target_id FROM {$bp->table_prefix}bp_block_member WHERE user_id = '$user_id' ");
 
 			return $blocked_ids;
 		}
@@ -552,13 +552,13 @@ class BP_Block_Member {
 		}
 
 		function _unblock( $user_id, $target_id ) {
-			global $wpdb;
+			global $wpdb, $bp;
 
 			if( $user_id != $this->this_id )
 				return;
 
 			$wpdb->query( $wpdb->prepare(
-				"DELETE FROM {$wpdb->prefix}bp_block_member WHERE user_id = %d AND target_id = %d",
+				"DELETE FROM {$bp->table_prefix}bp_block_member WHERE user_id = %d AND target_id = %d",
 				$user_id, $target_id
 				)
 			);
@@ -566,13 +566,13 @@ class BP_Block_Member {
 		}
 
 		function _block( $user_id, $target_id ) {
-			global $wpdb;
+			global $wpdb, $bp;
 
 			if( $user_id != $this->this_id )
 				return;
 
 			$wpdb->query(  $wpdb->prepare(
-				"INSERT INTO {$wpdb->prefix}bp_block_member (user_id, target_id) VALUES (%d, %d)",
+				"INSERT INTO {$bp->table_prefix}bp_block_member (user_id, target_id) VALUES (%d, %d)",
 				$user_id, $target_id
 				)
 			);
@@ -882,7 +882,7 @@ class BP_Block_Member {
 
 	// create a block between members if submitted
 	private function _block_create() {
-		global $wpdb;
+		global $wpdb, $bp;
 
 		if( isset( $_POST['block-member-create'] ) ) {
 
@@ -933,13 +933,13 @@ class BP_Block_Member {
 
 				//make sure block doesn't already exist.
 				$block_id = $wpdb->get_var( $wpdb->prepare(
-					"SELECT id FROM {$wpdb->prefix}bp_block_member WHERE user_id = %d AND target_id = %d",
+					"SELECT id FROM {$bp->table_prefix}bp_block_member WHERE user_id = %d AND target_id = %d",
 					$member_id, $target_id
 				) );
 
 				if( NULL == $block_id ) {
 					$new_block = $wpdb->query(  $wpdb->prepare(
-						"INSERT INTO {$wpdb->prefix}bp_block_member (user_id, target_id) VALUES (%d, %d)",
+						"INSERT INTO {$bp->table_prefix}bp_block_member (user_id, target_id) VALUES (%d, %d)",
 						$member_id, $target_id
 					) );
 
@@ -1018,10 +1018,10 @@ function bp_block_member_list() {
 
 
 		function delete_block( $id ) {
-			global $wpdb;
+			global $wpdb, $bp;
 
 			$wpdb->query( $wpdb->prepare(
-					"DELETE FROM {$wpdb->prefix}bp_block_member WHERE id = %d",
+					"DELETE FROM {$bp->table_prefix}bp_block_member WHERE id = %d",
 					$id
 				) );
 
@@ -1050,14 +1050,14 @@ function bp_block_member_list() {
 
 
 		function prepare_items() {
-			global $wpdb, $_wp_column_headers;
+			global $wpdb, $_wp_column_headers, $bp;
 			$screen = get_current_screen();
 
 			$this->process_bulk_action();
 
 			$query = "
 				SELECT a.id, a.user_id, a.target_id, b.user_login AS userName, c.user_login AS targetName
-				FROM {$wpdb->prefix}bp_block_member a
+				FROM {$bp->table_prefix}bp_block_member a
 				JOIN {$wpdb->prefix}users b ON ( b.ID = a.user_id )
 				JOIN {$wpdb->prefix}users c ON ( c.ID = a.target_id )
 				";
