@@ -1060,7 +1060,7 @@ function bp_block_member_list() {
 				FROM {$bp->table_prefix}bp_block_member a
 				JOIN {$bp->table_prefix}users b ON ( b.ID = a.user_id )
 				JOIN {$bp->table_prefix}users c ON ( c.ID = a.target_id )
-				";
+			";
 
 			$orderby = !empty($_GET["orderby"]) ? esc_sql($_GET["orderby"]) : 'ASC';
 			$order = !empty($_GET["order"]) ? esc_sql($_GET["order"]) : '';
