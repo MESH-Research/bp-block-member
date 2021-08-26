@@ -178,3 +178,4 @@ function block_member_private_messages_inbox_link() {
 }
 
 add_action( 'bp_messages_thread_options', 'block_member_private_messages_inbox_link' );
+
