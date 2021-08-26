@@ -1058,9 +1058,9 @@ function bp_block_member_list() {
 			$query = "
 				SELECT a.id, a.user_id, a.target_id, b.user_login AS userName, c.user_login AS targetName
 				FROM {$bp->table_prefix}bp_block_member a
-				JOIN {$wpdb->prefix}users b ON ( b.ID = a.user_id )
-				JOIN {$wpdb->prefix}users c ON ( c.ID = a.target_id )
-				";
+				JOIN {$bp->table_prefix}users b ON ( b.ID = a.user_id )
+				JOIN {$bp->table_prefix}users c ON ( c.ID = a.target_id )
+			";
 
 			$orderby = !empty($_GET["orderby"]) ? esc_sql($_GET["orderby"]) : 'ASC';
 			$order = !empty($_GET["order"]) ? esc_sql($_GET["order"]) : '';

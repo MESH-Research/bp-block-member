@@ -136,3 +136,46 @@ function bp_profile_block_handle_actions() {
 	wp_safe_redirect(  esc_url_raw( remove_query_arg( array( 'action', 'list', 'num', 'token' ) ) ) );
 	exit();
 }
+
+/**
+ * Add a link to block a member from the private messages inbox.
+ *
+ * Called by the bp_messages_thread_options action hook.
+ *
+ * @author Mike Thicke
+ */
+function block_member_private_messages_inbox_link() {
+	$block_member_instance = new BP_Block_Member();
+
+	$thread_id = bp_get_message_thread_id();
+	if ( ! $thread_id ) {
+		return;
+	}
+
+	$message_thread = new BP_Messages_Thread( $thread_id );
+
+	$sender_id = $message_thread->last_sender_id;
+	if ( ! $sender_id ) {
+		return;
+	}
+
+	if ( in_array( $sender_id, $block_member_instance->get_your_blocked_ids() ) ) {
+		$block_button_text  = __('UnBlock', 'bp-block-member');
+		$block_button_title = __('Allow this member to see you.', 'bp-block-member');
+		$style              = 'style="color: #CC0000"';
+		$action             = 'unblock';
+	}
+	else {
+		$block_button_text  = __('Block', 'bp-block-member');
+		$block_button_title = __('Block this member from seeing you.', 'bp-block-member');
+		$style              = '';
+		$action             = 'block';
+	}
+
+	$block_href = esc_url_raw( $block_member_instance->_bp_block_link( $sender_id, $action ) );
+
+	echo "<a href='$block_href' title='$block_button_title' $style>$block_button_text</a>";
+}
+
+add_action( 'bp_messages_thread_options', 'block_member_private_messages_inbox_link' );
+
